@@ -29,39 +29,39 @@ IF(UNIX)
   FIND_LIBRARY(G2O_CORE_LIB             
     NAMES g2o_core g2o_core_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_STUFF_LIB            
     NAMES g2o_stuff g2o_stuff_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_TYPES_SLAM2D_LIB     
     NAMES g2o_types_slam2d g2o_types_slam2d_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_TYPES_SLAM3D_LIB     
     NAMES g2o_types_slam3d g2o_types_slam3d_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_SOLVER_CHOLMOD_LIB   
     NAMES g2o_solver_cholmod g2o_solver_cholmod_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_SOLVER_PCG_LIB       
     NAMES g2o_solver_pcg g2o_solver_pcg_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_SOLVER_CSPARSE_LIB   
     NAMES g2o_solver_csparse g2o_solver_csparse_rd
     PATHS /usr/local /usr 
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_INCREMENTAL_LIB      
     NAMES g2o_incremental g2o_incremental_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_CSPARSE_EXTENSION_LIB
     NAMES g2o_csparse_extension g2o_csparse_extension_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib)
+    PATH_SUFFIXES lib lib64)
 
   SET(G2O_LIBRARIES ${G2O_CSPARSE_EXTENSION_LIB}
                     ${G2O_CORE_LIB}           
