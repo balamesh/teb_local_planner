@@ -54,10 +54,6 @@ IF(UNIX)
     NAMES g2o_solver_csparse g2o_solver_csparse_rd
     PATHS /usr/local /usr 
     PATH_SUFFIXES lib lib64)
-  FIND_LIBRARY(G2O_INCREMENTAL_LIB      
-    NAMES g2o_incremental g2o_incremental_rd
-    PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES lib lib64)
   FIND_LIBRARY(G2O_CSPARSE_EXTENSION_LIB
     NAMES g2o_csparse_extension g2o_csparse_extension_rd
     PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
