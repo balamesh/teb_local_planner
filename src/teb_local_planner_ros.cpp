@@ -149,8 +149,21 @@ void TebLocalPlannerROS::initialize(std::string name, tf::TransformListener* tf,
     
     // Get footprint of the robot and minimum and maximum distance from the center of the robot to its footprint vertices.
     footprint_spec_ = costmap_ros_->getRobotFootprint();
-    costmap_2d::calculateMinAndMaxDistances(footprint_spec_, robot_inscribed_radius_, robot_circumscribed_radius);    
-    
+    costmap_2d::calculateMinAndMaxDistances(footprint_spec_, robot_inscribed_radius_, robot_circumscribed_radius);
+
+    for (int i = 0; i < footprint_spec_.size(); i++) {
+        geometry_msgs::Point cur_point = footprint_spec_[i];
+        geometry_msgs::Point cur_point_enlarged = footprint_spec_[i];
+
+        cur_point_enlarged.x *= 1.5;
+        cur_point_enlarged.y *= 1.5;
+
+        footprint_default_.push_back(cur_point);
+        footprint_high_velocity_.push_back(cur_point_enlarged);
+    }
+
+    use_high_vel_footprint_ = false;
+
     // init the odom helper to receive the robot's velocity from odom messages
     odom_helper_.setOdomTopic(cfg_.odom_topic);
 
@@ -171,6 +184,7 @@ void TebLocalPlannerROS::initialize(std::string name, tf::TransformListener* tf,
     nh_move_base.param("controller_frequency", controller_frequency, controller_frequency);
     failure_detector_.setBufferLength(std::round(cfg_.recovery.oscillation_filter_duration*controller_frequency));
     
+
     // set initialized flag
     initialized_ = true;
 
@@ -327,9 +341,20 @@ bool TebLocalPlannerROS::computeVelocityCommands(geometry_msgs::Twist& cmd_vel)
     last_cmd_ = cmd_vel;
     return false;
   }
-         
+
+  double cur_vel = sqrt(robot_vel_tf.getOrigin().x() *robot_vel_tf.getOrigin().x() + robot_vel_tf.getOrigin().y() * robot_vel_tf.getOrigin().y());
+  if (cur_vel >= 0.2 && !use_high_vel_footprint_) {
+       costmap_ros_->setUnpaddedRobotFootprint(footprint_high_velocity_);
+       ROS_WARN("Set high vel footprint: %f", cur_vel);
+       use_high_vel_footprint_ = true;
+  } else if (cur_vel < 0.2 && use_high_vel_footprint_) {
+      costmap_ros_->setUnpaddedRobotFootprint(footprint_default_);
+      ROS_WARN("Set default footprint: %f", cur_vel);
+      use_high_vel_footprint_ = false;
+  }
+
   // Check feasibility (but within the first few states only)
-  bool feasible = planner_->isTrajectoryFeasible(costmap_model_.get(), footprint_spec_, robot_inscribed_radius_, robot_circumscribed_radius, cfg_.trajectory.feasibility_check_no_poses);
+  bool feasible = planner_->isTrajectoryFeasible(costmap_model_.get(), costmap_ros_->getUnpaddedRobotFootprint(), robot_inscribed_radius_, robot_circumscribed_radius, cfg_.trajectory.feasibility_check_no_poses);
   if (!feasible)
   {
     cmd_vel.linear.x = 0;
@@ -399,6 +424,9 @@ bool TebLocalPlannerROS::isGoalReached()
   if (goal_reached_)
   {
     ROS_INFO("GOAL Reached!");
+    costmap_ros_->setUnpaddedRobotFootprint(footprint_default_);
+    ROS_WARN("Set default footprint");
+    use_high_vel_footprint_ = false;
     planner_->clearPlanner();
     return true;
   }
