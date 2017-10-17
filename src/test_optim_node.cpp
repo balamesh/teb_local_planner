@@ -64,7 +64,7 @@ unsigned int no_fixed_obstacles;
 void CB_mainCycle(const ros::TimerEvent& e);
 void CB_publishCycle(const ros::TimerEvent& e);
 void CB_reconfigure(TebLocalPlannerReconfigureConfig& reconfig, uint32_t level);
-void CB_customObstacle(const costmap_converter::ObstacleArrayMsg::ConstPtr& obst_msg);
+//void CB_customObstacle(const costmap_converter::ObstacleArrayMsg::ConstPtr& obst_msg);
 void CreateInteractiveMarker(const double& init_x, const double& init_y, unsigned int id, std::string frame, interactive_markers::InteractiveMarkerServer* marker_server, interactive_markers::InteractiveMarkerServer::FeedbackCallback feedback_cb);
 void CB_obstacle_marker(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback);
 void CB_clicked_points(const geometry_msgs::PointStampedConstPtr& point_msg);
@@ -90,7 +90,7 @@ int main( int argc, char** argv )
   dynamic_recfg->setCallback(cb);
   
   // setup callback for custom obstacles
-  custom_obst_sub = n.subscribe("obstacles", 1, CB_customObstacle);
+//  custom_obst_sub = n.subscribe("obstacles", 1, CB_customObstacle);
   
   // setup callback for clicked points (in rviz) that are considered as via-points
   clicked_points_sub = n.subscribe("/clicked_point", 5, CB_clicked_points);
@@ -244,35 +244,35 @@ void CB_obstacle_marker(const visualization_msgs::InteractiveMarkerFeedbackConst
   pobst->position() = Eigen::Vector2d(feedback->pose.position.x,feedback->pose.position.y);	  
 }
 
-void CB_customObstacle(const costmap_converter::ObstacleArrayMsg::ConstPtr& obst_msg)
-{
-  // resize such that the vector contains only the fixed obstacles specified inside the main function
-  obst_vector.resize(no_fixed_obstacles);
-  
-  // Add custom obstacles obtained via message (assume that all obstacles coordiantes are specified in the default planning frame)  
-  for (size_t i = 0; i < obst_msg->obstacles.size(); ++i)
-  {
-    if (obst_msg->obstacles.at(i).polygon.points.size() == 1 )
-    {
-      obst_vector.push_back(ObstaclePtr(new PointObstacle( obst_msg->obstacles.at(i).polygon.points.front().x,
-                                                           obst_msg->obstacles.at(i).polygon.points.front().y )));
-    }
-    else
-    {
-      PolygonObstacle* polyobst = new PolygonObstacle;
-      for (size_t j=0; j<obst_msg->obstacles.at(i).polygon.points.size(); ++j)
-      {
-        polyobst->pushBackVertex( obst_msg->obstacles.at(i).polygon.points[j].x,
-                                  obst_msg->obstacles.at(i).polygon.points[j].y );
-      }
-      polyobst->finalizePolygon();
-      obst_vector.push_back(ObstaclePtr(polyobst));
-    }
-
-    if(!obst_vector.empty())
-      obst_vector.back()->setCentroidVelocity(obst_msg->obstacles.at(i).velocities, obst_msg->obstacles.at(i).orientation);
-  }
-}
+//void CB_customObstacle(const costmap_converter::ObstacleArrayMsg::ConstPtr& obst_msg)
+//{
+//  // resize such that the vector contains only the fixed obstacles specified inside the main function
+//  obst_vector.resize(no_fixed_obstacles);
+//  
+//  // Add custom obstacles obtained via message (assume that all obstacles coordiantes are specified in the default planning frame)  
+//  for (size_t i = 0; i < obst_msg->obstacles.size(); ++i)
+//  {
+//    if (obst_msg->obstacles.at(i).polygon.points.size() == 1 )
+//    {
+//      obst_vector.push_back(ObstaclePtr(new PointObstacle( obst_msg->obstacles.at(i).polygon.points.front().x,
+//                                                           obst_msg->obstacles.at(i).polygon.points.front().y )));
+//    }
+//    else
+//    {
+//      PolygonObstacle* polyobst = new PolygonObstacle;
+//      for (size_t j=0; j<obst_msg->obstacles.at(i).polygon.points.size(); ++j)
+//      {
+//        polyobst->pushBackVertex( obst_msg->obstacles.at(i).polygon.points[j].x,
+//                                  obst_msg->obstacles.at(i).polygon.points[j].y );
+//      }
+//      polyobst->finalizePolygon();
+//      obst_vector.push_back(ObstaclePtr(polyobst));
+//    }
+//
+//    if(!obst_vector.empty())
+//      obst_vector.back()->setCentroidVelocity(obst_msg->obstacles.at(i).velocities, obst_msg->obstacles.at(i).orientation);
+//  }
+//}
 
 
 void CB_clicked_points(const geometry_msgs::PointStampedConstPtr& point_msg)

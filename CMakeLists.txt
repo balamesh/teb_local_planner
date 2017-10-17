@@ -8,7 +8,7 @@ set(CMAKE_BUILD_TYPE Release) #None, Debug, Release, RelWithDebInfo, MinSizeRel
 find_package(catkin REQUIRED COMPONENTS
   base_local_planner
   costmap_2d
-  costmap_converter
+#  costmap_converter
   cmake_modules
   dynamic_reconfigure
   geometry_msgs
@@ -101,7 +101,7 @@ add_message_files(
   FILES
   TrajectoryPointMsg.msg
   TrajectoryMsg.msg
-  FeedbackMsg.msg
+#  FeedbackMsg.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -121,7 +121,7 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
-   geometry_msgs std_msgs costmap_converter
+   geometry_msgs std_msgs #costmap_converter
 )
 
 #add dynamic reconfigure api
@@ -146,7 +146,7 @@ catkin_package(
   CATKIN_DEPENDS
 	base_local_planner
 	costmap_2d
-	costmap_converter
+#	costmap_converter
 	dynamic_reconfigure
 	geometry_msgs
 	interactive_markers

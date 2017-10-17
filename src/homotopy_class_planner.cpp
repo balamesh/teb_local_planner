@@ -163,12 +163,12 @@ void HomotopyClassPlanner::visualize()
         visualization_->publishRobotFootprintModel(best_teb->teb().Pose(0), *robot_model_);
 
       // feedback message
-      if (cfg_->trajectory.publish_feedback)
-      {
-        int best_idx = bestTebIdx();
-        if (best_idx>=0)
-          visualization_->publishFeedbackMessage(tebs_, (unsigned int) best_idx, *obstacles_);
-      }
+//      if (cfg_->trajectory.publish_feedback)
+//      {
+//        int best_idx = bestTebIdx();
+//        if (best_idx>=0)
+//          visualization_->publishFeedbackMessage(tebs_, (unsigned int) best_idx, *obstacles_);
+//      }
     }
   }
   else ROS_DEBUG("Ignoring HomotopyClassPlanner::visualize() call, since no visualization class was instantiated before.");

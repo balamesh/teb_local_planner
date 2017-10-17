@@ -206,7 +206,7 @@ public:
    * @param selected_trajectory_idx Idx of the currently selected trajectory in \c teb_planners
    * @param obstacles Container of obstacles
    */
-  void publishFeedbackMessage(const std::vector< boost::shared_ptr<TebOptimalPlanner> >& teb_planners, unsigned int selected_trajectory_idx, const ObstContainer& obstacles);
+//  void publishFeedbackMessage(const std::vector< boost::shared_ptr<TebOptimalPlanner> >& teb_planners, unsigned int selected_trajectory_idx, const ObstContainer& obstacles);
   
   /**
    * @brief Publish a feedback message (single trajectory overload)
@@ -217,7 +217,7 @@ public:
    * @param teb_planner the planning instance
    * @param obstacles Container of obstacles
    */
-  void publishFeedbackMessage(const TebOptimalPlanner& teb_planner, const ObstContainer& obstacles);
+//  void publishFeedbackMessage(const TebOptimalPlanner& teb_planner, const ObstContainer& obstacles);
   
   //@}
   
