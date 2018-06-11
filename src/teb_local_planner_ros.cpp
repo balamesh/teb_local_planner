@@ -158,8 +158,8 @@ void TebLocalPlannerROS::initialize(std::string name, tf::TransformListener* tf,
         geometry_msgs::Point cur_point = footprint_spec_[i];
         geometry_msgs::Point cur_point_enlarged = footprint_spec_[i];
 
-        cur_point_enlarged.x *= 1.7;
-        cur_point_enlarged.y *= 1.7;
+        cur_point_enlarged.x *= 1.5;
+        cur_point_enlarged.y *= 1.5;
 
         footprint_default_.push_back(cur_point);
         footprint_high_velocity_.push_back(cur_point_enlarged);
