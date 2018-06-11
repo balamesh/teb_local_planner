@@ -382,10 +382,8 @@ private:
   ros::Time time_last_oscillation_; //!< Store at which time stamp the last oscillation was detected
   RotType last_preferred_rotdir_; //!< Store recent preferred turning direction
   geometry_msgs::Twist last_cmd_; //!< Store the last control command generated in computeVelocityCommands()
-
-  std::vector<geometry_msgs::Point> footprint_spec_; //!< Store the footprint of the robot
-  std::vector<geometry_msgs::Point> footprint_default_; //!< Store the footprint of the robot
-  std::vector<geometry_msgs::Point> footprint_high_velocity_; //!< Store the footprint of the robot
+  
+  std::vector<geometry_msgs::Point> footprint_spec_; //!< Store the footprint of the robot 
   double robot_inscribed_radius_; //!< The radius of the inscribed circle of the robot (collision possible)
   double robot_circumscribed_radius; //!< The radius of the circumscribed circle of the robot
   
@@ -394,7 +392,6 @@ private:
     
   // flags
   bool initialized_; //!< Keeps track about the correct initialization of this class
-  bool use_high_vel_footprint_;
 
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
